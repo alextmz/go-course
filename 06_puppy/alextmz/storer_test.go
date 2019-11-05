@@ -18,6 +18,13 @@ func (su *storerSuite) TestCreatePuppy() {
 	err := su.st.CreatePuppy(&p1)
 	su.NoError(err)
 
+	// do we increase the ID correctly?
+	su.Run("PuppyIDIncreases", func() {
+		p2 := Puppy{Breed: "Dogo", Colour: "White", Value: 500}
+		err = su.st.CreatePuppy(&p2)
+		su.Equal(p1.ID+1, p2.ID)
+	})
+
 	// do we error when creating something that already exists?
 	su.Run("NoErrorOnCreate", func() {
 		err = su.st.CreatePuppy(&p1)

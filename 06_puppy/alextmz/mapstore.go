@@ -9,12 +9,12 @@ type MapStore struct {
 	nextID int
 }
 
-func NewMapStore() MapStore {
+func NewMapStore() *MapStore {
 	a := MapStore{pmap: make(map[int]Puppy)}
-	return a
+	return &a
 }
 
-func (m MapStore) CreatePuppy(p *Puppy) error {
+func (m *MapStore) CreatePuppy(p *Puppy) error {
 	if p == nil {
 		return fmt.Errorf("puppy pointer is nil")
 	}
@@ -27,7 +27,7 @@ func (m MapStore) CreatePuppy(p *Puppy) error {
 	return nil
 }
 
-func (m MapStore) ReadPuppy(id int) (Puppy, error) {
+func (m *MapStore) ReadPuppy(id int) (Puppy, error) {
 	v, ok := m.pmap[id]
 	if !ok {
 		return Puppy{}, fmt.Errorf("puppy ID %d being read does not exist", id)
@@ -35,7 +35,7 @@ func (m MapStore) ReadPuppy(id int) (Puppy, error) {
 	return v, nil
 }
 
-func (m MapStore) UpdatePuppy(p Puppy) error {
+func (m *MapStore) UpdatePuppy(p Puppy) error {
 	if _, ok := m.pmap[p.ID]; !ok {
 		return fmt.Errorf("puppy ID %d being updated does not exist", p.ID)
 	}
@@ -43,7 +43,7 @@ func (m MapStore) UpdatePuppy(p Puppy) error {
 	return nil
 }
 
-func (m MapStore) DeletePuppy(id int) error {
+func (m *MapStore) DeletePuppy(id int) error {
 	if _, ok := m.pmap[id]; !ok {
 		return fmt.Errorf("puppy ID %d being deleted does not exist", id)
 	}
